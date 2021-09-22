@@ -181,7 +181,7 @@ class _SignupPageState extends State<SignupPage> {
                         style: TextStyle(color: Colors.blue, fontSize: 16)),
                     InkWell(
                       onTap: () {
-                        Get.to(()=>SigninPage());
+                        Get.off(()=>SigninPage());
                       },
                       child: Text("Sign In",
                           style: TextStyle(
