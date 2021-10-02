@@ -16,32 +16,18 @@ class Controller extends GetxController {
   RxBool isConatctpermission = false.obs;
 
   Future getPermission(BuildContext context) async {
-       
-    final permission;
-    if (await Permission.contacts.request().isGranted != true) {
-         permission = await Permission.contacts.request();
-    }
-    
     final PermissionStatus status = await Permission.contacts.status;
     if (status.isGranted) {
       await getContacts();
       isConatctpermission.value = true;
     } else {
-      isConatctpermission.value = false;
-      showDialog(
-          context: context,
-          builder: (BuildContext context) => CupertinoAlertDialog(
-                title: Text('Permissions error'),
-                content: Text('Please enable contacts access '
-                    'permission in system settings'),
-                actions: <Widget>[
-                  CupertinoDialogAction(
-                    child: Text('OK'),
-                    onPressed: () => Navigator.of(context).pop(),
-                  )
-                ],
-              ));
-      print("not granted");
+      await Permission.contacts.request();
+      if (!status.isGranted) {
+        Center(child: Text("Permission not granted"),);
+        isConatctpermission.value = false;
+      } else {
+        isConatctpermission.value = true;
+      }
     }
   }
 
