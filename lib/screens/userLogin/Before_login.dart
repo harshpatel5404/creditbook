@@ -1,4 +1,4 @@
-import 'package:creditbook/controller/ob_controller.dart';
+import 'package:creditbook/controller/controller.dart';
 import 'package:creditbook/screens/userLogin/signup.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -28,7 +28,7 @@ List data = [
   {"img": "beforelogin3.png", "title": "Ready to save money", "txt": ""},
 ];
 
-final controller = Get.put(obcontroller());
+final controller = Get.put(Controller());
 var ind = 0;
 
 class _BeforeloginState extends State<Beforelogin> {
@@ -110,6 +110,9 @@ class _BeforeloginState extends State<Beforelogin> {
               style: TextStyle(fontSize: 15),
             ),
             onPressed: () {
+
+               controller.getPermission(context); 
+              
               Get.to(() => SignupPage());
             },
             shape:

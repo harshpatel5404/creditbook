@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../../add_contacts.dart';
 import '../../dashboard.dart';
 import '../../widgets/InputDeco_design.dart';
 
@@ -128,7 +129,7 @@ class _SigninPageState extends State<SigninPage> {
                               } else {
                                 final snackBar = SnackBar(
                                     content:
-                                        Text('Email and Password are wrong!'));
+                                        Text('Email and Password are not match!'));
                                 ScaffoldMessenger.of(context)
                                     .showSnackBar(snackBar);
                               }

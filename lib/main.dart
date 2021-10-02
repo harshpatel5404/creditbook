@@ -1,8 +1,6 @@
 import 'dart:io';
-import 'package:creditbook/controller/controller.dart';
 import 'package:creditbook/dashboard.dart';
 import 'package:creditbook/models/user_model.dart';
-import 'package:creditbook/screens/userLogin/signup.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -34,13 +32,15 @@ class MyApp extends StatelessWidget {
    
     return GetMaterialApp(
       title: 'Credit Book',
-      debugShowCheckedModeBanner: false,
       theme: ThemeData(
+          primaryColor: Colors.blue[800],
+        fontFamily: 'RobotoMono'
         // primarySwatch: Colors.blueGrey,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
+        // visualDensity: VisualDensity.adaptivePlatformDensity,
+        
       ),
 
-      home:  prefs!.getBool('isLoggedIn') == true  ? Beforelogin() : Beforelogin(),
+      home:  prefs!.getBool('isLoggedIn') == true  ? Dashboard() : Beforelogin(),
     );
   }
 }
