@@ -31,6 +31,7 @@ class MyApp extends StatelessWidget {
 
    
     return GetMaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Credit Book',
       theme: ThemeData(
           primaryColor: Colors.blue[800],

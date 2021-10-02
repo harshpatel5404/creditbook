@@ -1,6 +1,9 @@
 import 'package:contacts_service/contacts_service.dart';
+import 'package:creditbook/controller/controller.dart';
+import 'package:creditbook/screens/userLogin/Before_login.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class AddContacts extends StatefulWidget {
@@ -11,75 +14,42 @@ class AddContacts extends StatefulWidget {
 }
 
 class _AddContactsState extends State<AddContacts> {
-  Iterable<Contact>? _contacts;
-  bool isPermission = false;
-
-  Future _getPermission() async {
-    final permission = await Permission.contacts.request();
-    final PermissionStatus status = await Permission.contacts.status;
-    if (permission.isGranted == true || status.isGranted) {
-      await getContacts();
-      setState(() {
-        isPermission = true;
-      });
-    } else {
-      showDialog(
-          context: context,
-          builder: (BuildContext context) => CupertinoAlertDialog(
-                title: Text('Permissions error'),
-                content: Text('Please enable contacts access '
-                    'permission in system settings'),
-                actions: <Widget>[
-                  CupertinoDialogAction(
-                    child: Text('OK'),
-                    onPressed: () => Navigator.of(context).pop(),
-                  )
-                ],
-              ));
-      print("not granted");
-    }
-  }
-
-  @override
-  void initState() {
-    _getPermission();
-    super.initState();
-  }
-
-  Future<void> getContacts() async {
-    final Iterable<Contact> contacts = await ContactsService.getContacts();
-    setState(() {
-      _contacts = contacts;
-    });
-  }
+  final Controller controller = Get.put(Controller());
 
   @override
   Widget build(BuildContext context) {
+    if (!controller.isConatctpermission.value) {
+      controller.getPermission(context);
+    }
+
     return Scaffold(
-        appBar: AppBar(
-          title: (Text('Contacts')),
-        ),
-        body: _contacts != null
+      
+      appBar: AppBar(
+        title: (Text('Contacts')),
+      ),
+      body: Obx(
+        () => controller.isConatctpermission.value
             ? ListView.builder(
-                itemCount: _contacts!.length,
+                itemCount: controller.names.length,
                 itemBuilder: (BuildContext context, int index) {
-                  Contact contact = _contacts!.elementAt(index);
+                  Contact contact = controller.contacts!.elementAt(index);
                   return ListTile(
                     contentPadding:
                         const EdgeInsets.symmetric(vertical: 2, horizontal: 18),
-                    leading:
-                        (contact.avatar != null && contact.avatar!.isNotEmpty)
-                            ? CircleAvatar()
-                            : CircleAvatar(
-                                child: Text(contact.initials()),
-                                backgroundColor: Theme.of(context).accentColor,
-                              ),
-                    title: Text(contact.displayName ?? ''),
+                        leading: (contact.avatar != null && contact.avatar!.isNotEmpty)
+                      ? CircleAvatar(
+                        )
+                      : CircleAvatar(
+                          child: Text(contact.initials()),
+                          backgroundColor: Theme.of(context).accentColor,
+                        ),
+                    title: Text(controller.names[index]),
+                    subtitle: Text(controller.phones[index]),
                   );
                 },
               )
-            : Center(
-                child: CircularProgressIndicator(),
-              ));
+            : Center(child: CircularProgressIndicator()),
+      ),
+    );
   }
 }

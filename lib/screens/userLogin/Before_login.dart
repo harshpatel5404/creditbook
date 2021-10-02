@@ -62,14 +62,13 @@ class _BeforeloginState extends State<Beforelogin> {
                             child: Image.asset("assets/${data[index]["img"]}")),
                         Text(
                           data[index]["title"],
-                           textAlign: TextAlign.center,
+                          textAlign: TextAlign.center,
                           style: TextStyle(
                               fontSize: 30, color: Colors.lightBlue[900]),
                         ),
                         Text(
-                         
                           data[index]["txt"],
-                           textAlign: TextAlign.center,
+                          textAlign: TextAlign.center,
                           style:
                               TextStyle(fontSize: 18, color: Colors.blue[400]),
                         ),
@@ -101,18 +100,16 @@ class _BeforeloginState extends State<Beforelogin> {
           ),
         ],
       ),
-      floatingActionButton: Obx(()=>
-         Visibility(
+      floatingActionButton: Obx(
+        () => Visibility(
           visible: controller.selectind.value == 2 ? true : false,
           child: FloatingActionButton.extended(
             label: Text(
               "Start",
               style: TextStyle(fontSize: 15),
             ),
-            onPressed: () {
-
-               controller.getPermission(context); 
-              
+            onPressed: () async {
+              await controller.getPermission(context);
               Get.to(() => SignupPage());
             },
             shape:
